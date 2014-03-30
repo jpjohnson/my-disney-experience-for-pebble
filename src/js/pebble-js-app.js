@@ -40,7 +40,8 @@ var getItinerary = function() {
 
     var req = new XMLHttpRequest();
     var requestUrl = "http://mde-api.herokuapp.com/date/" + yyyy + "/" + mm + "/" + dd + "/";
-    var loginInfo = "username=&password=";
+    console.log(requestUrl);
+    var loginInfo = "username=" + localStorage.username + "&password=" + localStorage.password + "";
 
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.setRequestHeader("Content-length", loginInfo.length);
@@ -55,7 +56,9 @@ var getItinerary = function() {
                     var response = JSON.parse(req.responseText);
                     plans = [];
                     var destinationsArray = response.content.destinations;
-                    if ()
+                    if (response.result == 'fail') {
+                        sendError("You have no plans for today. Open the app on your phone to add some!");
+                    }
                     destinationsArray.forEach(function(element, index, array) {
                         var plansArray = element.plans;
                         plansArray.forEach(function(element, index, array) {
@@ -134,5 +137,24 @@ var sendAppMessage = function() {
 }
 
 Pebble.addEventListener("ready", function(e) {
-    getItinerary();
+    if (localStorage.username && localStorage.password) {
+        getItinerary();
+    } else {
+        sendError("Please login by going to the settings on the Pebble app on your phone.");
+    }
 });
+
+Pebble.addEventListener("showConfiguration", function(e) {
+    Pebble.openURL("http://logicalpixels.com/mde/settings.html");
+});
+
+Pebble.addEventListener("webviewclosed", function(e) {
+    var configuration = JSON.parse(decodeURIComponent(e.response));
+    localStorage.username = configuration.username.toString();
+    localStorage.password = configuration.password.toString();
+    if (localStorage.username && localStorage.password) {
+        getItinerary();
+    } else {
+        sendError("You didn't enter your username and password in the settings app.");
+    }
+})

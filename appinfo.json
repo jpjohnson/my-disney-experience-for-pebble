@@ -2,8 +2,11 @@
   "uuid": "f813669a-50c6-42c4-a55b-744c6f3ca5a6",
   "shortName": "MyDisneyExperience",
   "longName": "MyDisneyExperience for Pebble",
-  "companyName": "MakeAwesomeHappen",
+  "companyName": "Logical Pixels",
   "versionCode": 1,
+  "capabilities": [
+      "configurable"
+  ],
   "versionLabel": "1.0.0",
   "watchapp": {
     "watchface": false

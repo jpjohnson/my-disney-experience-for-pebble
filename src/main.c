@@ -31,6 +31,7 @@ void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason,
 void in_received_handler(DictionaryIterator *iter, void *context) {
     if (!itinerary_is_on_top()) {
         window_stack_pop_all(true);
+        vibes_double_pulse();
         itinerary_show();
     }
     if (itinerary_is_on_top()) {

@@ -23,10 +23,23 @@ var plans = [];
 // ------------
 // gets all of the itinerary items for the current data
 var getItinerary = function() {
-    console.log("Getting itinerary");
+//    console.log("Getting itinerary");
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
 
     var req = new XMLHttpRequest();
-    var requestUrl = "http://mde-api.herokuapp.com/date/2014/03/15/";
+    var requestUrl = "http://mde-api.herokuapp.com/date/" + yyyy + "/" + mm + "/" + dd + "/";
     var loginInfo = "username=jett4@comcast.net&password=tigger";
 
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

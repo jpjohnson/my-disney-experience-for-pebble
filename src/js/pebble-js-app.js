@@ -40,7 +40,7 @@ var getItinerary = function() {
 
     var req = new XMLHttpRequest();
     var requestUrl = "http://mde-api.herokuapp.com/date/" + yyyy + "/" + mm + "/" + dd + "/";
-    var loginInfo = "username=jett4@comcast.net&password=tigger";
+    var loginInfo = "username=&password=";
 
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.setRequestHeader("Content-length", loginInfo.length);
@@ -55,6 +55,7 @@ var getItinerary = function() {
                     var response = JSON.parse(req.responseText);
                     plans = [];
                     var destinationsArray = response.content.destinations;
+                    if ()
                     destinationsArray.forEach(function(element, index, array) {
                         var plansArray = element.plans;
                         plansArray.forEach(function(element, index, array) {

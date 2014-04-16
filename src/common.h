@@ -11,5 +11,6 @@ enum {
 	PLAN_INDEX = 0x0,
 	PLAN_NAME = 0x1,
 	PLAN_TIME = 0x2,
-	PLAN_FP = 0X3
+	PLAN_FP = 0x3,
+	PLAN_ERROR = 0x4
 };

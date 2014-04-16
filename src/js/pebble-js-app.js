@@ -57,7 +57,7 @@ var getItinerary = function() {
                     plans = [];
                     var destinationsArray = response.content.destinations;
                     if (response.result == 'fail') {
-                        sendError("You have no plans for today. Open the app on your phone to add some!");
+                        sendError("No Plans");
                     }
                     destinationsArray.forEach(function(element, index, array) {
                         var plansArray = element.plans;
@@ -87,10 +87,10 @@ var getItinerary = function() {
         sendAppMessage();
     };
     req.ontimeout = function() {
-        sendError("Request timed out!");
+        sendError("Request Timed Out");
     };
     req.onerror = function() {
-        sendError("Failed to connect!");
+        sendError("Connection Failed");
     };
     req.send(loginInfo);
 }
@@ -100,7 +100,11 @@ var getItinerary = function() {
 // ---------
 // displays error message on Pebble
 var sendError = function(error) {
-    Pebble.showSimpleNotificationOnPebble("Error!", error.toString());
+    //Pebble.showSimpleNotificationOnPebble("Error!", error.toString());
+    appMessageQueue.push({'message': {
+                            'error': error.toString(),
+    }});
+    sendAppMessage();
 }
 
 // sendAppMessage
@@ -140,7 +144,7 @@ Pebble.addEventListener("ready", function(e) {
     if (localStorage.username && localStorage.password) {
         getItinerary();
     } else {
-        sendError("Please login by going to the settings on the Pebble app on your phone.");
+        sendError("Please Login");
     }
 });
 
@@ -153,8 +157,9 @@ Pebble.addEventListener("webviewclosed", function(e) {
     localStorage.username = configuration.username.toString();
     localStorage.password = configuration.password.toString();
     if (localStorage.username && localStorage.password) {
+        sendError("Loading...");
         getItinerary();
     } else {
-        sendError("You didn't enter your username and password in the settings app.");
+        sendError("Please Login");
     }
 })

@@ -29,13 +29,19 @@ void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason,
 }
 
 void in_received_handler(DictionaryIterator *iter, void *context) {
-    if (!itinerary_is_on_top()) {
-        window_stack_pop_all(true);
+    Tuple *error_tuple = dict_find(iter, PLAN_ERROR);
+    if (error_tuple) {
         vibes_double_pulse();
-        itinerary_show();
-    }
-    if (itinerary_is_on_top()) {
-        itinerary_in_received_handler(iter);
+        text_layer_set_text(text_layer, error_tuple->value->cstring);
+    } else {
+        if (!itinerary_is_on_top()) {
+            window_stack_pop_all(true);
+            vibes_double_pulse();
+            itinerary_show();
+        }
+        if (itinerary_is_on_top()) {
+            itinerary_in_received_handler(iter);
+        }
     }
 }
 

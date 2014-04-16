@@ -15,7 +15,8 @@
     "index": 0,
     "name": 1,
     "time": 2,
-    "fastPass": 3
+    "fastPass": 3,
+    "error": 4
   },
   "resources": {
     "media": [
